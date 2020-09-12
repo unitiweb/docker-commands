@@ -1,5 +1,5 @@
 {
-  "name": "docker-commander",
+  "name": "stack-commander",
   "version": "0.1.0",
   "description": "Add simple method for running commands on your stack",
   "main": "src/index.js",
@@ -7,12 +7,12 @@
   "license": "MIT",
   "author": "Dave Torres <dave@unitiweb.com>",
   "bugs": {
-    "url": "https://github.com/unitiweb/docker-commander/issues"
+    "url": "https://github.com/unitiweb/stack-commander/issues"
   },
-  "homepage": "https://github.com/unitiweb/docker-commander#readme",
+  "homepage": "https://github.com/unitiweb/stack-commander#readme",
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/unitiweb/docker-commander.git"
+    "url": "git+ssh://git@github.com/unitiweb/stack-commander.git"
   },
   "keywords": [
     "stack",
