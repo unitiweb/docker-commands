@@ -35,6 +35,7 @@ class Config {
 
         // Default configuration
         this.config = {
+            basePath: this.path,
             command: args.command,
             args: args.values,
             commands: cfg.stack.commands
