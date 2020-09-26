@@ -1,0 +1,43 @@
+stack:
+  commands:
+    test:
+      default: echo This is test default
+      zero_a: echo This is zero_a test
+    one: echo This is the most basic test
+    two:
+      - echo Test Two Command One
+      - echo Test Two Command Two
+    three:
+      description: This is test three
+      path: test
+      commands: echo Test Three Command One
+    four:
+      description: This is test four
+      commands:
+        0:
+          commands: mkdir newdir
+        1:
+          path: newdir
+          commands: mkdir anotherdir
+        2:
+          path: newdir/anotherdir
+          commands:
+            - echo 'this is file1' >> file1.txt
+            - echo 'this is file2' >> file2.txt
+    five:
+      description: This is test five
+      path: test
+      commands:
+        - echo Test Five Command One
+        - echo Test Five Command Two
+    nested:
+      default: echo Level 1
+      next:
+        default: echo Level 2
+        next:
+          default: echo Level 3
+          next:
+            default: echo Level 4
+            next:
+              default: echo Level 5
+              next: echo Level 6
