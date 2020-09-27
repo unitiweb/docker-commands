@@ -1,4 +1,5 @@
 const term = require('terminal-kit').terminal
+const { cleanLines } = require('./helpers')
 
 const maxLineLength = 100
 
@@ -17,13 +18,13 @@ const headerLine = (topSpace = false, bottomSpace = false, character = '=') => {
  * @param callback Callback to add addition inside lines of text
  */
 const header = (text, topLine = true, bottomLine = true) => {
-    // Add a top line if neccessary
+    // Add a top line if necessary
     if (topLine) headerLine(true)
 
     // Add the header text and mike it all uppercase
     term.green(` ${text.toUpperCase()}\n`)
 
-    // Add a bottom line if neccessary
+    // Add a bottom line if necessary
     if (bottomLine) headerLine(false, true)
 }
 
@@ -35,13 +36,14 @@ const commands = (list) => {
             term.green(`  | path: ${cmd.path}\n`);
         }
         for (let ii = 0; ii < cmd.commands.length; ii++) {
-            term.yellow(`  |--> ${cmd.commands[ii]}\n`);
+            term.yellow(cleanLines(cmd.commands[ii], '  |--> '))
+            spacer()
         }
     }
 }
 
 const description = (text) => {
-    term(`   ${text}`)
+    term(cleanLines(text, '    '))
 }
 
 const spacer = () => {
