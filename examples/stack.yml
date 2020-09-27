@@ -33,7 +33,10 @@ stack:
     nested:
       default: echo Level 1
       next:
-        default: echo Level 2
+        default:
+          description: This is a tested test
+          path: my/file/location
+          commands: echo Level 2
         next:
           default: echo Level 3
           next:

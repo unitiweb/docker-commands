@@ -30,7 +30,7 @@ class Command
      *
      * @returns array
      */
-    execute() {
+    async execute() {
         output.headerLine(true, false)
         output.header('Executing Commands', false, false)
 
@@ -44,20 +44,28 @@ class Command
 
         for (let i = 0; i < this.exec.length; i++) {
             const cmd = this.exec[i]
-
-            // Set working directory
-            let cdPath = this.basePath
-            if (cmd.path && cmd.path !== '') {
-                cdPath = path.join('/', cdPath, cmd.path)
-            }
-
-            // Execute commands
-            for (let ii = 0; ii < cmd.commands.length; ii++) {
-                shell.cd(path).exec(command, {async: false});
-            }
+            await this.executeCommand(cmd)
         }
 
         output.spacer()
+    }
+
+    async executeCommand(cmd) {
+        // Set working directory
+        let cdPath = this.basePath
+        if (cmd.path && cmd.path !== '') {
+            cdPath = path.join('/', cdPath, cmd.path)
+        }
+
+        // Execute commands
+        output.spacer()
+        for (let ii = 0; ii < cmd.commands.length; ii++) {
+            await this.run(cdPath, cmd.commands[ii])
+        }
+    }
+
+    async run(path, command) {
+        shell.cd(path).exec(command, {async: false});
     }
 
     /**

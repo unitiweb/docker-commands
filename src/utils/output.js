@@ -28,9 +28,14 @@ const header = (text, topLine = true, bottomLine = true) => {
 }
 
 const commands = (list) => {
-    if (Array.isArray(list)) {
-        for (let i = 0; i < list.length; i++) {
-            term.yellow(`   |-- ${list[i]}\n`);
+    for (let i = 0; i < list.length; i++) {
+        const cmd = list[i]
+        if (cmd.path && cmd.path.length > 0) {
+            spacer()
+            term.green(`  | path: ${cmd.path}\n`);
+        }
+        for (let ii = 0; ii < cmd.commands.length; ii++) {
+            term.yellow(`  |--> ${cmd.commands[ii]}\n`);
         }
     }
 }
