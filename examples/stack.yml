@@ -1,5 +1,12 @@
 stack:
   commands:
+    multi:
+      description: |
+        Test multi-line descriptions
+        And yes this is multi-lines
+      commands: |
+        export MY_VALUE='1234'
+        echo $MY_VALUE
     test:
       default: echo This is test default
       zero_a: echo This is zero_a test

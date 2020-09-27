@@ -1,6 +1,7 @@
 const output = require('./output')
 const shell = require('shelljs')
 const path = require('path')
+const { cleanLines } = require('./helpers')
 
 /**
  * Parse the commands and other values from the config
@@ -65,7 +66,7 @@ class Command
     }
 
     async run(path, command) {
-        shell.cd(path).exec(command, {async: false});
+        shell.cd(path).exec(cleanLines(command), {async: false});
     }
 
     /**
