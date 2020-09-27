@@ -1,6 +1,6 @@
 {
   "name": "stack-commander",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Add simple method for running commands on your stack",
   "main": "src/index.js",
   "scripts": {},
