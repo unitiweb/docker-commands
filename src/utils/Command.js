@@ -53,7 +53,7 @@ class Command
 
             // Execute commands
             for (let ii = 0; ii < cmd.commands.length; ii++) {
-                shell.cd(cdPath).exec(cmd.commands[ii], {async: false});
+                shell.cd(path).exec(command, {async: false});
             }
         }
 
@@ -73,6 +73,13 @@ class Command
      * Parse the commands to set the commands to execute
      */
     parseCommands() {
+
+        // Displays the stack-commander version
+        if (this.command === '--version') {
+            this.addToExec('', ['echo stack-commander v' + this.getVersion()], true)
+            return;
+        }
+
         let cmd = this.commands[this.command];
 
         // Walk down to the end of the command path
@@ -217,6 +224,15 @@ class Command
         this.error = true
 
         return undefined
+    }
+
+    /**
+     * Get the version for stack-commander
+     *
+     * @returns {string}
+     */
+    getVersion() {
+        return shell.exec('npm view stack-commander version').stdout
     }
 }
 

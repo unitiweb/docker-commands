@@ -186,3 +186,11 @@ stack nested next next next
 stack nested next next next next
 stack nested next next next next next
 ``` 
+
+### Internal Commands
+
+**Get version**
+
+```bash
+stack --version
+```
