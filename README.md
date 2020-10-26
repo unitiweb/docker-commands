@@ -74,6 +74,24 @@ stack:
       echo $(pwd)
 ```
 
+Or, if you have a command that will need to take in parameters you can do this:
+
+```yaml
+stack:
+  commands:
+    test:
+      filter:
+        commands: vendor/bin/phpunit --filter 
+```
+
+Then, when you run this:
+
+```bash
+stack test filter testSomeMethod testAnotherMethod
+# this will produce a filter command
+# vendor/bin/phpunit --filter testSomeMethod testAnotherMethod
+```
+
 **With a description**
 
 ```yaml
