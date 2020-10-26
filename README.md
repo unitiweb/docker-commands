@@ -54,12 +54,24 @@ stack:
 
 **With multiple commands**
 
+This will run the commands as separate commands
+
 ```yaml
 stack:
   commands:
     mydir: 
       - echo This is my current directory
       - echo $(pwd)
+```
+
+Or, if you need the commands to run as on single command you can do this:
+
+```yaml
+stack:
+  commands:
+    mydir: |
+      echo This is my current directory
+      echo $(pwd)
 ```
 
 **With a description**
@@ -72,6 +84,19 @@ stack:
       commands:
         - echo $(pwd)
         - echo There it is
+```
+
+You can make a multi line description simply by doing this:
+
+```yaml
+stack:
+  commands:
+    mydir: 
+      description: |
+        This will print out my current directory
+        This will print out on the second line of the description
+      commands:
+        - echo Command 1
 ```
 
 **With a working directory**
