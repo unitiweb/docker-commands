@@ -35,8 +35,16 @@ const commands = (list) => {
             spacer()
             term.green(`  | path: ${cmd.path}\n`);
         }
+
+        let params = ''
+        // Add a spacer prefix if params is not empty
+        // Also, only set params on the last command in the list
+        if (cmd.params.length > 0 && i === (list.length - 1)) {
+            params = ' ' + cmd.params
+        }
+
         for (let ii = 0; ii < cmd.commands.length; ii++) {
-            term.yellow(cleanLines(cmd.commands[ii], '  |--> '))
+            term.yellow(cleanLines(cmd.commands[ii].trim() + params, '  |--> '))
             spacer()
         }
     }

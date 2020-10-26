@@ -61,7 +61,15 @@ class Command
         // Execute commands
         output.spacer()
         for (let ii = 0; ii < cmd.commands.length; ii++) {
-            await this.run(cdPath, cmd.commands[ii])
+            let command = cmd.commands[ii].trim()
+
+            // Only add the params if params is not empty
+            // And, if this is the last command in the list of commands
+            if (cmd.params.length > 0 && ii === (cmd.commands.length - 1)) {
+                command = command + ' ' + cmd.params
+            }
+
+            await this.run(cdPath, command + ' ' + cmd.params)
         }
     }
 
@@ -89,17 +97,20 @@ class Command
             return;
         }
 
-        let cmd = this.commands[this.command];
+        let cmd = this.commands[this.command.trim()]
+        let params = ''
 
         // Walk down to the end of the command path
         for (let k in this.args) {
             const v = this.args[k]
             if (cmd[v]) {
-                cmd = cmd[v];
+                cmd = cmd[v]
             } else {
-                this.errors = true
-                output.error(`The command "${v}" does not exist`)
-                return;
+                // Add command params and remove as current args[k]
+                if (v.length > 0) {
+                    params = params + v
+                    delete this.args[k]
+                }
             }
         }
 
@@ -120,7 +131,7 @@ class Command
                   commands:
                     one: echo This is a command
              */
-            this.addToExec('', [cmd])
+            this.addToExec('', [cmd], params)
         } else if (this.getType(cmd) === 'array') {
             /* Example:
                 stack:
@@ -129,7 +140,7 @@ class Command
                       - echo Command One
                       - echo Command Two
              */
-            this.addToExec('', cmd)
+            this.addToExec('', cmd, params)
         } else if (this.getType(cmd.commands) === 'string') {
             /* Example:
                 stack:
@@ -139,7 +150,7 @@ class Command
                       commands: echo Command One
              */
             this.description = cmd.description || null
-            this.addToExec(cmd.path || '', [cmd.commands])
+            this.addToExec(cmd.path || '', [cmd.commands], params)
         } else if (this.getType(cmd.commands) === 'object') {
             /* Example:
                 stack:
@@ -157,7 +168,7 @@ class Command
                             - echo Command One B
              */
             this.description = cmd.description || null
-            this.exec = this.execFromObject(cmd.commands)
+            this.exec = this.execFromObject(cmd.commands, params)
         } else if (this.getType(cmd.commands) === 'array') {
             /* Example:
                 stack:
@@ -170,7 +181,7 @@ class Command
                         - echo Command One B
              */
             this.description = cmd.description || null
-            this.addToExec(cmd.path || '', cmd.commands)
+            this.addToExec(cmd.path || '', cmd.commands, params)
         } else {
             output.error('The command could not be found')
             this.errors = true
@@ -182,11 +193,13 @@ class Command
      *
      * @param path The path if any
      * @param commands An array of commands
+     * @param params The command params if any
      */
-    addToExec(path, commands) {
+    addToExec(path, commands, params) {
         this.exec.push({
             path: path,
-            commands: commands
+            commands: commands,
+            params: params
         })
     }
 
@@ -194,10 +207,11 @@ class Command
      * Format the list of commands if commands is of type 'object'
      *
      * @param commands The commands object/array to format
+     * @param params The list of command params if any
      *
      * @returns array
      */
-    execFromObject(commands) {
+    execFromObject(commands, params) {
         const list = []
 
         for (let key in commands) {
@@ -206,7 +220,11 @@ class Command
             if (this.getType(cmds) === 'string') {
                 cmds = [cmds]
             }
-            list.push({path, commands: cmds})
+            list.push({
+                path,
+                commands: cmds,
+                params
+            })
         }
 
         return list
@@ -228,7 +246,6 @@ class Command
             return 'object'
         }
 
-        console.log('variable', variable)
         output.error('The type was unknown')
         this.error = true
 

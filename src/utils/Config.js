@@ -66,7 +66,7 @@ class Config {
     /**
      * Get and parse the command line arguments
      *
-     * @returns {values: [], command: string}
+     * @returns {command: string, values: []}
      */
     processArgs() {
         const args = process.argv
